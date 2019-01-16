@@ -9,3 +9,34 @@
 #include "main.h"
 #include <iostream>
 #include <fstream>
+
+
+int main(int argc, char ** argv)
+// Algorithme :
+//
+{
+
+	return 0;
+} //----- Fin de main
+
+bool checkCmdLine(char ** argv)
+// Algorithme :
+//
+{
+
+	return true;
+} //----- Fin de checkCmdLine
+
+void mkTopTen( )
+// Algorithme :
+//
+{
+
+} //----- Fin de mkTopTen
+
+void mkGraph( )
+// Algorithme :
+//
+{
+
+} //----- Fin de mkGraph

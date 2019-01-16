@@ -15,6 +15,7 @@
 //------------------------------------------------------ Include personnel
 #include "Parser.h"
 
+using namespace std;
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -26,7 +27,7 @@
 
 
 
-Parser::Parser ( )
+Parser::Parser ( string filePath )
 // Algorithme :
 //
 {
