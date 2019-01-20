@@ -22,6 +22,61 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
+bool Parser::hasNextLine ( )
+// Algorithme :
+//
+{
+	bool res = true;
+	char c;
+	logFile.get(c);
+
+	if(logFile.eof())
+	{
+		res =  false;
+	}
+
+	logFile.unget();
+	return res;
+} //Fin de hasNextLine
+
+
+void Parser::nextLine ( )
+// Algorithme :
+//
+{
+	string line;
+	string element;
+	getline(logFile, line);
+
+	size_t a = 0;
+	size_t b = 0;
+
+	vector<string>::const_iterator del = delimiters.cbegin();
+
+	//Extrait les differents éléments d'une ligne dans le vecteur lineData
+	for (size_t i = 0; i < delimiters.size(); ++i)
+	{
+		b = line.find(*del, a);
+		element = line.substr(a, b-a);
+		lineData->push_back(element);
+		a = b + (*del).size();
+
+		del++;
+	}
+
+} //Fin de nextLine
+
+string Parser::get ( enum LineAttribute lineAttr )
+// Algorithme :
+//
+{
+	if(lineData->empty()){
+		cerr << "No line has been red yet." << endl;
+		return "-1";
+	}
+
+	return lineData->at(lineAttr);
+} //Fin de get
 
 //-------------------------------------------- Constructeurs - destructeur
 
@@ -34,6 +89,16 @@ Parser::Parser ( string filePath )
 	#ifdef MAP
 	    cerr << "Appel au constructeur de <Parser>" << endl;
 	#endif
+	
+	lineData = new vector<string>();
+
+	logFile.open(filePath);
+
+	if(!logFile.good())
+	{
+		cerr << "erro opening the file" << endl;
+	}
+
 } //----- Fin de Parser
 
 Parser::~Parser ( )
@@ -43,5 +108,7 @@ Parser::~Parser ( )
 	#ifdef MAP
 	    cerr << "Appel au destructeur de <Parser>" << endl;
 	#endif
+	logFile.close();
+	delete lineData;
 }
-//----- Fin de ~Parser
+//----- Fin de ~Parser 
