@@ -21,6 +21,10 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
+const char* FileNotFoundError::what() const noexcept
+{
+	return "Cannot open the file. Either you don't have the right or it does not exists";
+}
 
 bool Parser::hasNextLine ( )
 // Algorithme :
@@ -35,8 +39,10 @@ bool Parser::hasNextLine ( )
 		res =  false;
 	}
 
-	logFile.unget();
+	logFile.unget(); 
+
 	return res;
+
 } //Fin de hasNextLine
 
 
@@ -96,7 +102,8 @@ Parser::Parser ( string filePath )
 
 	if(!logFile.good())
 	{
-		cerr << "erro opening the file" << endl;
+		
+		throw FileNotFoundError();
 	}
 
 } //----- Fin de Parser

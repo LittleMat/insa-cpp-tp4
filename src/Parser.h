@@ -13,10 +13,16 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+
 //------------------------------------------------------------------------
 // Rôle de la classe <Parser>
 
 //------------------------------------------------------------------------
+struct FileNotFoundError : public std::exception
+{
+	const char * what() const noexcept;
+};
+
 
 class Parser
 {
