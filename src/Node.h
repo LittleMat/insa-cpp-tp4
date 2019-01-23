@@ -10,7 +10,9 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <memory>
 #include <unordered_map>
+
 //------------------------------------------------------------------------
 // Rôle de la classe <Node>
 
@@ -29,19 +31,21 @@ public:
         return data;
     }
 
-    const std::unordered_map<Node<DataType>*, unsigned>& getEdges() const
+    const std::unordered_map<std::shared_ptr<Node<DataType>>, unsigned>& getEdges() const
     {
         return edges;
     }
 
-    void addEdge(Node<DataType>& node)
+    void addEdge(std::shared_ptr<Node<DataType>>& node)
     {
-        if(edges.count(&node))
+        if(edges.count(node))
         {
-            edges[&node]++;
+            edges[node]++;
         }
         else
-            edges[&node] = 1;
+        {
+            edges[node] = 1;
+        }
     }
 //-------------------------------------------- Constructeur - destructeur
 
@@ -54,7 +58,7 @@ protected:
 
     DataType data;
 
-    std::unordered_map<Node<DataType>*, unsigned> edges;
+    std::unordered_map<std::shared_ptr<Node<DataType>>, unsigned> edges;
 };
 
 #endif // NODE_H
