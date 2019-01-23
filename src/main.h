@@ -20,7 +20,7 @@ int main( int argc, char ** argv );
 /*
  *
  */
-bool checkCmdLine( char ** argv );
+bool checkCmdLine( int argc, char ** argv );
 
 /*
  *
