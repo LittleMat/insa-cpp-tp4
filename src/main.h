@@ -9,6 +9,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <iostream>
 #include "Parser.h"
 #include "Graph.h"
 
@@ -25,7 +26,7 @@ bool checkCmdLine( char ** argv );
 /*
  *
  */
- void mkTopTen( );
+ void mkTopTen( std::string filename );
 
  /*
   *
