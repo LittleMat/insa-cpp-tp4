@@ -10,27 +10,51 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <unordered_map>
 //------------------------------------------------------------------------
 // Rôle de la classe <Node>
 
 //------------------------------------------------------------------------
 
+template<typename DataType>
 class Node
 {
 //----------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    
 
+    const DataType& getData() const
+    {
+        return data;
+    }
+
+    const std::unordered_map<Node<DataType>*, unsigned>& getEdges() const
+    {
+        return edges;
+    }
+
+    void addEdge(Node<DataType>& node)
+    {
+        if(edges.count(&node))
+        {
+            edges[&node]++;
+        }
+        else
+            edges[&node] = 1;
+    }
 //-------------------------------------------- Constructeur - destructeur
 
+    explicit Node(DataType data) : data(data) {}
+
+    ~Node() = default;
+
 protected:
-
-
 //----------------------------------------------------- Attributs protégés
 
+    DataType data;
 
+    std::unordered_map<Node<DataType>*, unsigned> edges;
 };
 
 #endif // NODE_H
