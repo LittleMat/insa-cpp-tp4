@@ -30,6 +30,6 @@ bool checkCmdLine( char ** argv );
  /*
   *
   */
- void mkGraph( );
+ void mkGraph( const std::string& inputFileName, const std::string& outputFileName );
 
 #endif
