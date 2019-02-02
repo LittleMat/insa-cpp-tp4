@@ -37,7 +37,9 @@ public:
 		USER_LOGNAME,
 		AUTHENTICATED, 
 		DATETIME, 
-		REQUEST, 
+		METHOD,
+		DOCUMENT,
+		PROTOCOL,
 		STATUS, 
 		DATA_SIZE, 
 		REFERER, 
@@ -58,7 +60,7 @@ public:
 	/*
 	 *	Retourne l'attribut passé en paramètre de la ligne stocké dans linedata
 	 */
-	std::string get ( LineAttribute lineAttr );
+	std::string get ( LineAttribute lineAttr ); //TODO return const std::string& instead of std::string
 
 //-------------------------------------------- Constructeur - destructeur
 	/*
@@ -80,7 +82,7 @@ protected:
 
 	std::fstream logFile; //Gère la lecture dans le fichier ouvert.
 
-	std::vector<std::string> const delimiters = {" ", " ", " [", "] \"" , "\" "," ", " \"", "\" \"", "\""};
+	std::vector<std::string> const delimiters = {" ", " ", " [", "] \"" , " ", " ", "\" "," ", " \"", "\" \"", "\""};
 	// Vecteur des string de délimitation entre les différents éléments d'une ligne
 };
 

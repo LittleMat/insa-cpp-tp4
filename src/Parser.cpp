@@ -54,6 +54,8 @@ void Parser::nextLine ( )
 	string element;
 	getline(logFile, line);
 
+	lineData->clear();
+
 	size_t a = 0;
 	size_t b = 0;
 
@@ -77,8 +79,8 @@ string Parser::get ( enum LineAttribute lineAttr )
 //
 {
 	if(lineData->empty()){
-		cerr << "No line has been red yet." << endl;
-		return "-1";
+		cerr << "No line has been red yet." << endl; //TODO fix typo
+		return "-1"; //TODO bad error value
 	}
 
 	return lineData->at(lineAttr);
