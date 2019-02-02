@@ -44,7 +44,7 @@ public:
 
         // itérer pour afficher les noeuds
         for(auto it = nodes.begin(); it != nodes.end(); ++it)
-            out << '\t' << it->first << ';' << std::endl;
+            out << "\t\"" << it->first << "\";" << std::endl;
 
         // réitérer pour afficher les arcs
         for(auto nodeIt = nodes.begin(); nodeIt != nodes.end(); ++nodeIt)
@@ -54,13 +54,13 @@ public:
 
             for(auto edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt)
             {
-                out << '\t' << nodeIt->first << " -> "
+                out << "\t\"" << nodeIt->first << "\" -> \""
                     << edgeIt->first->getData()
-                    << " [label=\""<< edgeIt->second << "\"];" << std::endl;
+                    << "\" [label=\""<< edgeIt->second << "\"];" << std::endl;
             }
         }
 
-        return out << '}' << std::endl;
+        return out << '}';
     }
 
 //-------------------------------------------- Constructeur - destructeur
