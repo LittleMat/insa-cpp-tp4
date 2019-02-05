@@ -60,7 +60,7 @@ void mkGraph( Parser& parser, const string& outputFileName )
     {
         parser.nextLine();
 
-        string referer = parser.get(Parser::REFERER);
+        const string& referer = *parser.get(Parser::REFERER);
         if(referer != "-") {
             // trouver l'indice de début du nom d'hôte dans l'url
             size_t pos1 = referer.find("//", 0) + 2; // +2 pour passer compter les //
