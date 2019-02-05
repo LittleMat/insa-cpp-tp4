@@ -78,10 +78,8 @@ const string* Parser::get ( enum LineAttribute lineAttr )
 // Algorithme :
 //
 {
-	if(lineData->empty()){
-		cerr << "No line has been red yet." << endl; //TODO fix typo
+	if(lineData->empty())
 		return nullptr;
-	}
 
 	return &lineData->at(lineAttr);
 } //Fin de get
