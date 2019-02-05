@@ -18,9 +18,15 @@
 // Rôle de la classe <Parser>
 
 //------------------------------------------------------------------------
-struct FileNotFoundError : public std::exception
+class FileNotFoundError : public std::exception
 {
+public:
+	FileNotFoundError(const char* filename);
+	~FileNotFoundError();
 	const char * what() const noexcept;
+
+private:
+	char* message;
 };
 
 
@@ -66,7 +72,7 @@ public:
 	/*
 	 *	Ouvre le fichier filePath et initialise les variables.
 	 */
-	Parser ( std::string filePath );
+	Parser ( const std::string& filePath );
 
 	/*
 	 *	Destructeur de Parser.

@@ -14,6 +14,8 @@
 
 //------------------------------------------------------ Include personnel
 #include "Parser.h"
+#include <cstring>
+#include <sstream>
 
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -21,9 +23,25 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
+
+FileNotFoundError::FileNotFoundError(const char *filename)
+{
+	ostringstream sstr;
+	sstr << "Cannot open file "
+		<< filename
+		<< ". Either you don't have the right or it does not exists";
+	message = new char[sstr.str().size() + 1];
+	strcpy(message, sstr.str().c_str());
+}
+
+FileNotFoundError::~FileNotFoundError()
+{
+	delete[] message;
+}
+
 const char* FileNotFoundError::what() const noexcept
 {
-	return "Cannot open the file. Either you don't have the right or it does not exists";
+	return message;
 }
 
 bool Parser::hasNextLine ( )
@@ -88,7 +106,7 @@ const string* Parser::get ( enum LineAttribute lineAttr )
 
 
 
-Parser::Parser ( string filePath )
+Parser::Parser ( const string& filePath )
 // Algorithme :
 //
 {
@@ -103,7 +121,7 @@ Parser::Parser ( string filePath )
 	if(!logFile.good())
 	{
 		
-		throw FileNotFoundError();
+		throw FileNotFoundError(filePath.c_str());
 	}
 
 } //----- Fin de Parser
