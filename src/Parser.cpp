@@ -48,6 +48,7 @@ bool Parser::hasNextLine ( )
 // Algorithme :
 //
 {
+	
 	bool res = true;
 	char c;
 	logFile.get(c);
@@ -60,6 +61,7 @@ bool Parser::hasNextLine ( )
 	logFile.unget(); 
 
 	return res;
+	//return !logFile.eof();
 
 } //Fin de hasNextLine
 
@@ -77,6 +79,8 @@ void Parser::nextLine ( )
 	size_t a = 0;
 	size_t b = 0;
 
+	lineData->clear();
+
 	vector<string>::const_iterator del = delimiters.cbegin();
 
 	//Extrait les differents éléments d'une ligne dans le vecteur lineData
@@ -86,7 +90,6 @@ void Parser::nextLine ( )
 		element = line.substr(a, b-a);
 		lineData->push_back(element);
 		a = b + (*del).size();
-
 		del++;
 	}
 

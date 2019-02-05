@@ -72,7 +72,7 @@ public:
 	/*
 	 *	Ouvre le fichier filePath et initialise les variables.
 	 */
-	Parser ( const std::string& filePath );
+	explicit Parser ( const std::string& filePath );
 
 	/*
 	 *	Destructeur de Parser.
