@@ -68,20 +68,20 @@ void mkGraph( Parser& parser, const string& outputFileName )
             // trouver l'indice du début de la page dans l'url
             size_t pos2 = referer.find('/', pos1);
 
-            //TODO maybe simplify really long urls (like google ones for example)
+            //hTODO maybe simplify really long urls (like google ones for example)
 
             // l'url contient une page (au moins un / à la fin)
             if(pos2 != string::npos) {
                 // le nom d'hôte correspond au nom d'hôte local
                 if(referer.substr(pos1, pos2 - pos1).rfind(LOCAL_URL) != string::npos) {
-                    graph.add(referer.substr(pos2, referer.size()), parser.get(Parser::DOCUMENT));
+                    graph.add(referer.substr(pos2, referer.size()), *parser.get(Parser::DOCUMENT));
                 }
                 else {
-                    graph.add(referer, parser.get(Parser::DOCUMENT));
+                    graph.add(referer, *parser.get(Parser::DOCUMENT));
                 }
             }
             else {
-                graph.add(referer, parser.get(Parser::DOCUMENT));
+                graph.add(referer, *parser.get(Parser::DOCUMENT));
             }
         }
     }
