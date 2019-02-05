@@ -74,16 +74,16 @@ void Parser::nextLine ( )
 
 } //Fin de nextLine
 
-string Parser::get ( enum LineAttribute lineAttr )
+const string* Parser::get ( enum LineAttribute lineAttr )
 // Algorithme :
 //
 {
 	if(lineData->empty()){
 		cerr << "No line has been red yet." << endl; //TODO fix typo
-		return "-1"; //TODO bad error value
+		return nullptr;
 	}
 
-	return lineData->at(lineAttr);
+	return &lineData->at(lineAttr);
 } //Fin de get
 
 //-------------------------------------------- Constructeurs - destructeur

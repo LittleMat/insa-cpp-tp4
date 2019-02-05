@@ -60,7 +60,7 @@ public:
 	/*
 	 *	Retourne l'attribut passé en paramètre de la ligne stocké dans linedata
 	 */
-	std::string get ( LineAttribute lineAttr ); //TODO return const std::string& instead of std::string
+	const std::string* get ( LineAttribute lineAttr );
 
 //-------------------------------------------- Constructeur - destructeur
 	/*
