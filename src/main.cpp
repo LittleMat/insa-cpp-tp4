@@ -15,10 +15,15 @@
 #include <iomanip>
 #include <map>
 #include <algorithm>
+#include <string.h>
+#include <string>
 
 using namespace std;
 
 const string LOCAL_URL("intranet-if.insa-lyon.fr");
+
+constexpr int ARGS_NUM = 3;
+const char* VALID_ARGS[ARGS_NUM] = { "-g", "-e", "-t" };
 
 bool cmp (pair<string, int> const & a, pair<string, int> const & b)
 {
@@ -48,10 +53,130 @@ int main(int argc, char ** argv)
 	return 0;
 } //----- Fin de main
 
-bool checkCmdLine(char ** argv)
+bool checkCmdLine(int argc, char ** argv, Args& args)
 // Algorithme :
 //
 {
+    args = Args();
+
+	int gotArgs = 0; // flags to remember which args where found
+
+	// check that all given arguments starting with '-' exist and that there's at most 1 of each
+	for(int i = 1; i < argc; ++i)
+	{
+		if(argv[i][0] == '-')
+		{
+			bool argExist = false;
+			for(int j = 0; j < ARGS_NUM && !argExist; ++j)
+			{
+				if(strcmp(argv[i], VALID_ARGS[j]) == 0) {
+					if((gotArgs >> j) == 1) {
+						cout << "Got argument " << argv[i] << " several times" << endl;
+						return false;
+					}
+					argExist = true;
+					gotArgs |= (1 << j);
+				}
+			}
+			if(!argExist)
+			{
+				cout << "Unknown argument : " << argv[i] << endl;
+				return false;
+			}
+		}
+	}
+
+	// display usage message if no args, or last arg is not file name,
+	// or 2 args or more and 1st arg is file name
+	if (argc <= 1 || (argv[argc - 1][0] == '-') || (argc > 2 && argv[1][0] != '-'))
+	{
+		cout << "Usage : analog [options] <input-file>\n\n"
+				"\t<input-file>      : path to the log file to use as input\n\n"
+				"\tAvailable options :\n\n"
+				"\t\t-g [output-file] : specifies that a directed graph representation of the log file\n"
+				"\t\t\tshould be built and outputed to [output-file]. Vertices in the graph represent the webpages\n"
+				"\t\t\tand arcs represent that a request occurred from a page to get another page. The actual number\n"
+				"\t\t\tof request that occurred is represented as a label on the associated arc.\n"
+				"\t\t\t[output-file] defaults to \"out.dot\"\n\n"
+				"\t\t-e : exclude files based on their ending. Blacklisted file endings are stored in the x file.\n\n" //TODO put name of blacklist file
+				"\t\t-t <hour> : only consider requests that occurred between <hour> (included)\n"
+				"\t\t\tand <hour> + 1 (excluded). <hour> must be a number between 0 and 23."
+			 << endl; //TODO put some tty magic in usage message (colors, etc)
+		return false;
+	}
+
+	for(int i = 1; i < argc - 1; ++i)
+	{
+		char* arg = argv[i];
+
+        if(strcmp(arg, "-g") == 0)
+        {
+            bool defaultValue = false;
+            args.makeGraph = true;
+            if (i + 1 < argc - 1) {
+                ++i;
+                arg = argv[i];
+
+                if (arg[0] != '-') {
+                    args.graphOutputFileName = string(arg);
+                } else {
+                    defaultValue = true;
+                }
+            }
+            else {
+                defaultValue = true;
+            }
+
+            if(defaultValue)
+                args.graphOutputFileName = string("out.dot");
+        }
+
+        if(strcmp(arg, "-t") == 0)
+        {
+            args.filterHour = true;
+            bool gotBadT = false;
+            if(i + 1 < argc - 1) {
+                ++i;
+                arg = argv[i];
+
+                if(arg[0] != '-') {
+                    size_t argLen = strlen(arg);
+                    if (argLen <= 2) {
+                        for (int j = 0; j < argLen && !gotBadT; ++j) {
+                            if (arg[0] <= 48 || arg[0] >= 57) {
+                                gotBadT = true;
+                            }
+                        }
+                        if (!gotBadT) {
+                            args.filterHour = true;
+                            args.hour = atoi(arg);
+                        }
+                    } else {
+                        gotBadT = true;
+                    }
+                }
+                else {
+                    gotBadT = true;
+                }
+            }
+            else {
+                gotBadT = true;
+            }
+
+            // got bad or no number after -t
+            if(gotBadT) {
+                cout << "Argument -t expects a number between 0 and 23" << endl;
+                return false;
+            }
+        }
+
+        if(strcmp(arg, "-e") == 0)
+        {
+            args.blacklistFiles = true;
+        }
+	}
+
+	args.inputFileName = argv[argc - 1];
 
 	return true;
 } //----- Fin de checkCmdLine
