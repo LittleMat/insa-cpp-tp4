@@ -25,33 +25,25 @@ bool cmp (pair<string, int> const & a, pair<string, int> const & b)
 	return (a.second > b.second);
 }
 
-string factorise(string info)
-{
-	int a,b;
-	a = info.find(" ", 0);
-	b = info.find(" ", a+1);
-	string res = info.substr(a, b-a);
-	return res;
-}
-
 int main(int argc, char ** argv)
 // Algorithme :
 //
 {
     try
     {
-        Parser parser("../anonyme.log");
-        mkGraph(parser, "../weblogs.dot");
+        Parser parser("anonyme.log", "10:10:10", "11:00:00");
+        parser.addBlacklist("css");
+        parser.addBlacklist("jpeg");
+        parser.addBlacklist("");
+
+        //mkGraph(parser, "../weblogs.dot");
+        mkTopTen(parser);
     }
     catch(FileNotFoundError& e)
     {
         cerr << e.what() << endl;
         return -1;
     }
-
-
-	mkTopTen( argv [1] );
-
 
 	return 0;
 } //----- Fin de main
@@ -64,30 +56,33 @@ bool checkCmdLine(char ** argv)
 	return true;
 } //----- Fin de checkCmdLine
 
-void mkTopTen( string filename )
+void mkTopTen( Parser& p)
 // Algorithme :
 //
 {
 	map<string, int> connections;
-	Parser * p = new Parser(filename);
 	string adresseRequested;
 
 	//Insère tous les éléments
 	do
 	{
-		p->nextLine();
-		adresseRequested = p->get(Parser::REQUEST);
-		if(connections.count(adresseRequested) > 0)
-		{
-			connections[adresseRequested] ++;
-		}
-		else
-		{
-			connections[adresseRequested] = 1;
-		}
-	} while(p->hasNextLine());
+		p.nextLine();
 
-	delete p;
+		if(p.isLineGood()) //Utile pour la dernière ligne si elle n'est pas bonne
+		{
+			adresseRequested = *(p.get(Parser::DOCUMENT));
+			if(connections.count(adresseRequested) > 0)
+			{
+				connections[adresseRequested] ++;
+			}
+			else
+			{
+				connections[adresseRequested] = 1;
+			}
+		}
+		
+	
+	} while(p.hasNextLine());
 
 	//Trie les éléments
 	vector<pair<string, int>> connections_sorted;
@@ -104,7 +99,7 @@ void mkTopTen( string filename )
 	//Moins de 10 logs
 	if(connections_sorted.size() < 10){
 		for(; aff != connections_sorted.end(); aff ++){
-			cout << left << setw(50) << factorise(aff->first) << " ( " << aff->second << " hits )" << endl;
+			cout << left << setw(50) << aff->first << " ( " << aff->second << " hits )" << endl;
 		}
 	}
 
@@ -118,7 +113,7 @@ void mkTopTen( string filename )
 				cpt++;
 			}
 
-			cout << left << setw(50) << factorise(aff->first) << " ( " << aff->second << " hits )" << endl;
+			cout << left << setw(50) << aff->first << " ( " << aff->second << " hits )" << endl;
 
 			if(cpt == 10)
 			{

@@ -26,7 +26,7 @@ bool checkCmdLine( char ** argv );
 /*
  *
  */
- void mkTopTen( std::string filename );
+ void mkTopTen( Parser& parser);
 
  /*
   *
