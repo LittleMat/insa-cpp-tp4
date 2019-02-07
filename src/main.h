@@ -10,8 +10,24 @@
 #define MAIN_H
 
 #include <iostream>
+#include <string>
 #include "Parser.h"
 #include "Graph.h"
+
+struct Args {
+    std::string inputFileName;
+
+    // -g
+    bool makeGraph = false;
+    std::string graphOutputFileName;
+
+    // -e
+    bool blacklistFiles = false;
+
+    // -t
+    bool filterHour = false;
+    int hour;
+};
 
 /*
  *
