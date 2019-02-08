@@ -49,23 +49,29 @@ int main(int argc, char ** argv)
 // Algorithme :
 //
 {
-    try
-    {
-        Parser parser("anonyme.log", "10:10:10", "11:00:00");
-        parser.addBlacklist("css");
-        parser.addBlacklist("jpeg");
-        parser.addBlacklist("");
+    opterr = 0;
+    Args args;
 
-        //mkGraph(parser, "../weblogs.dot");
-        mkTopTen(parser);
-    }
-    catch(FileNotFoundError& e)
+    if(checkCmdLine(argc, argv, args))
     {
-        cerr << e.what() << endl;
-        return -1;
+        try {
+            Parser parser("anonyme.log", "10:10:10", "11:00:00");
+            parser.addBlacklist("css");
+            parser.addBlacklist("jpeg");
+            parser.addBlacklist("");
+
+            //mkGraph(parser, "../weblogs.dot");
+            mkTopTen(parser);
+        }
+        catch (FileNotFoundError &e) {
+            cerr << e.what() << endl;
+            return -1;
+        }
+
+        return 0;
     }
 
-	return 0;
+    return -1;
 } //----- Fin de main
 
 bool checkCmdLine(int argc, char ** argv, Args& args)
