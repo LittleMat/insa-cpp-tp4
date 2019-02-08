@@ -23,7 +23,7 @@
 
 using namespace std;
 
-const char* USAGE_MESSAGE =
+const string USAGE_MESSAGE(
         "Usage : analog [options] <input-file>\n\n"
         "\t<input-file>      : path to the log file to use as input\n\n"
         "\tAvailable options :\n\n"
@@ -32,12 +32,11 @@ const char* USAGE_MESSAGE =
         "\t\t\tand arcs represent that a request occurred from a page to get another page. The actual number\n"
         "\t\t\tof request that occurred is represented as a label on the associated arc.\n"
         "\t\t\t[output-file] defaults to \"out.dot\"\n\n"
-        "\t\t-e : exclude files based on their ending. Blacklisted file endings are stored in the x file.\n\n" //TODO put name of blacklist file
+        "\t\t-e : exclude files based on their ending. Blacklisted file endings are stored in banned_extension.txt.\n\n"
         "\t\t-t <hour> : only consider requests that occurred between <hour> (included)\n"
-        "\t\t\tand <hour> + 1 (excluded). <hour> must be a number between 0 and 23.";
+        "\t\t\tand <hour> + 1 (excluded). <hour> must be a number between 0 and 23.");
 const string LOCAL_URL("intranet-if.insa-lyon.fr");
 const string EXTENSIONS_BANNED("banned_extension.txt");
-
 
 int main(int argc, char ** argv)
 // Algorithme :
