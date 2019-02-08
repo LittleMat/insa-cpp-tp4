@@ -16,6 +16,7 @@
 #include "Parser.h"
 #include <cstring>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -113,9 +114,8 @@ bool Parser::isLineGood()
 {
 	bool line_good = true;
 
-	// Vérifie que l'heure soit bien entre les bornes, si elles sont différentes
-	// des valeurs de base
-	if(hDeb!=0 && hFin != (23*60*60 + 59*60 + 59))
+	// Vérifie que l'heure soit différente des valeurs de base
+	if(hDeb!=0 && hFin != (23*60*60))
 	{	
 		int time = TimeToSecond((*get(TIME)).substr(0, 8));
 		if( ! ( time >= hDeb && time < hFin ) ) 
@@ -128,17 +128,14 @@ bool Parser::isLineGood()
 	// si des extensions ont été blacklisté et si la ligne n'est pas déjà rejetée.
 	if(blacklist.size() != 0 && line_good)
 	{
-		vector<string>::const_iterator ci;
-
-		for(ci = blacklist.begin(); ci != blacklist.end(); ++ci)
+		const string * type = extractExtension(*get(DOCUMENT));
+		
+		if( find(blacklist.begin(), blacklist.end(), *type) != blacklist.end())
 		{
-			const string * type = extractExtension(*get(DOCUMENT));
-			if( ! type->compare (*ci))
-			{
-				line_good = false;
-			}
-			delete type;
+			line_good = false;	
 		}
+		
+		delete type;
 	}
 	return line_good;
 }
