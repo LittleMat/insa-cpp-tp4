@@ -1,12 +1,12 @@
 /*************************************************************************
                            Parser  -  description
                              -------------------
-    début                : 16/01
-    copyright            : (C) 2019 par LEHOUX Pacôme et MONTGOMERY Mathieu
-    e-mail               : pacome.lehoux@insa-lyon.fr et mathieu.montgomery@insa-lyon.fr
+    beginning            : 16/01
+    copyright            : (C) 2019 by LEHOUX Pacôme, MONTGOMERY Mathieu et ZHANG Tianyu
+    e-mail               : pacome.lehoux@insa-lyon.fr, mathieu.montgomery@insa-lyon.fr, tianyu.zhang@insa-lyon.fr
 *************************************************************************/
 
-//---------- Interface de la classe <Parser> (fichier Parser.h) ----------------
+//---------- Interface of <Parser> (file Parser.h) ----------------
 #ifndef PARSER_H
 #define PARSER_H
 #include <vector>
@@ -16,8 +16,12 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Parser>
-
+// This class will open a file passed to the constructor and each time the method nextLine
+// is called, it will read a new line from the file and break it into a vector of information.
+// all the different information from a line are accessible with a get method, and it is possible
+// to restrain the data that is read with some parameters (currently in between hours and extensions)
 //------------------------------------------------------------------------
+
 class FileNotFoundError : public std::exception
 {
 public:
@@ -36,7 +40,7 @@ class Parser
 
 public:
 	/*
-	 * Enum contenant les différents attributs d'une ligne.
+	 * Enum containing the different attributes of a line.
 	 */
 	enum LineAttribute {
 		IP_CLIENT = 0, 
@@ -53,73 +57,73 @@ public:
 		CLIENT 
 	};
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- Public methods
 	/*
-	 *	Retourne vrai si le fichier ouvert contient encore une ligne.
+	 *	Return true if the opened file still has a line.
 	 */
 	bool hasNextLine ( );
 
 	/*
-	 * 	Retourne la prochaine ligne du fichier ouvert.
+	 * 	Return the next line of the opened file.
 	 */
 	void nextLine ( );
 
 	/*
-	 * 	Vérifie si la ligne est correct par rapport aux paramètres.
+	 * 	Check if the line is correct (according to the parameters, hours and extensions).
 	 */
 	bool isLineGood();
 
 	/*
-	 *	Ajoute une extension au vecteur blacklist pour que le parser ne prenne pas
-	 *  les pages ayant cette extension.
+	 *	Adds an extension to the blacklist vector so the parser would skip those lines.
 	 */
 	void addBlacklist ( std::string extensionName);
 
 	/*
-	 *	Retourne l'attribut passé en paramètre de la ligne stocké dans linedata.
+	 *	Returns the part of the line that is currently read corresponding to what is passed 
+	 *  to the method.
 	 */
 	const std::string* get ( LineAttribute lineAttr );
 
 //-------------------------------------------- Constructeur - destructeur
 	/*
-	 *	Ouvre le fichier filePath et initialise les variables.
+	 *	Opens filePath and initialize variables.
 	 */
 	explicit Parser ( const std::string& filePath, const std::string& h_Deb = "00", const std::string& h_Fin = "23"  );
 
 	/*
-	 *	Destructeur de Parser.
+	 *	Destructor of Parser.
 	 */
 	~Parser ( );
 
 protected:
 
 	/*
-	 *	Affiche le vecteur blacklist;
+	 *	Display the blacklist vector.
 	 */
 	void showBlackList();
 
 
 	/*
-	 *	Transforme un string contenant un temps en seconde.
+	 *	Transforms a string containing a time in an int. It must be in the form hh:mm:ss or hh.
 	 */
 	int TimeToSecond(const std::string& time);
 
 	/*
-	 *	Extrait l'extension d'une page.
+	 *	Extract the extension of a page.
 	 */
 	const std::string* extractExtension(const std::string& adresse) const;
 
 
-//----------------------------------------------------- Attributs protégés
+//----------------------------------------------------- Protected attributes
 
-	std::vector<std::string> *lineData; //Contient les différents éléments de la ligne lu.
+	std::vector<std::string> *lineData; //Contains the different part of a line that is currently read.
 
-	std::fstream logFile; //Gère la lecture dans le fichier ouvert.
+	std::fstream logFile; //Manages the file where the data is read.
 
 	std::vector<std::string> const delimiters = {" ", " ", " [", ":", "] \"" , " ", " ", "\" "," ", " \"", "\" \"", "\""};
-	// Vecteur des string de délimitation entre les différents éléments d'une ligne
+	// Vector that contains the delimitation between the different pieces of information of a line.
 
-	std::vector<std::string> blacklist; //Contien les extensions à ignorer.
+	std::vector<std::string> blacklist; // Contains the extensions to ignore.
 
 	int hDeb;
 	int hFin;

@@ -1,9 +1,9 @@
 /*************************************************************************
                            Node  -  description
                              -------------------
-    début                : 16/01
-    copyright            : (C) 2019 par LEHOUX Pacôme et MONTGOMERY Mathieu
-    e-mail               : pacome.lehoux@insa-lyon.fr et mathieu.montgomery@insa-lyon.fr
+    beginning            : 16/01
+    copyright            : (C) 2019 by LEHOUX Pacôme, MONTGOMERY Mathieu et ZHANG Tianyu
+    e-mail               : pacome.lehoux@insa-lyon.fr, mathieu.montgomery@insa-lyon.fr, tianyu.zhang@insa-lyon.fr
 *************************************************************************/
 
 //---------- Interface de la classe <Node> (fichier Node.h) ----------------

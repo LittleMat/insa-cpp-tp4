@@ -1,9 +1,9 @@
 /*************************************************************************
                            main  -  description
                              -------------------
-    début                : 16/01
-    copyright            : (C) 2019 par LEHOUX Pacôme et MONTGOMERY Mathieu
-    e-mail               : pacome.lehoux@insa-lyon.fr et mathieu.montgomery@insa-lyon.fr
+    beginning            : 16/01
+    copyright            : (C) 2019 by LEHOUX Pacôme, MONTGOMERY Mathieu et ZHANG Tianyu
+    e-mail               : pacome.lehoux@insa-lyon.fr, mathieu.montgomery@insa-lyon.fr, tianyu.zhang@insa-lyon.fr
 *************************************************************************/
 
 #ifndef MAIN_H
@@ -35,7 +35,7 @@ struct Args {
 int main( int argc, char ** argv );
 
 /*
- * Construit le parser à partir de la structure arguments.
+ *  Construct the parser with the arguments structure.
  */
 Parser * makeParser(Args * argum);
 
@@ -45,7 +45,7 @@ Parser * makeParser(Args * argum);
 bool checkCmdLine( char ** argv );
 
 /*
- * Fait le top 10 des sites les plus visités en prennant compte les arguments.
+ *  Makes the top 10 most visited websites according to the arguments.
  */
  void mkTopTen( Parser& parser);
 

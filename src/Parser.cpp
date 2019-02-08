@@ -1,18 +1,18 @@
 /*************************************************************************
                            Parser  -  description
                              -------------------
-    début                : 16/01
-    copyright            : (C) 2019 par LEHOUX Pacôme et MONTGOMERY Mathieu
-    e-mail               : pacome.lehoux@insa-lyon.fr et mathieu.montgomery@insa-lyon.fr
+    beginning            : 16/01
+    copyright            : (C) 2019 by LEHOUX Pacôme, MONTGOMERY Mathieu et ZHANG Tianyu
+    e-mail               : pacome.lehoux@insa-lyon.fr, mathieu.montgomery@insa-lyon.fr, tianyu.zhang@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation de la classe <Parser> (fichier Parser.cpp) ------------
+//------------- Realisation of <Parser> (file Parser.cpp) ----------------
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//--------------------------------------------------------- System include
 
-//------------------------------------------------------ Include personnel
+//------------------------------------------------------ Personnal include
 #include "Parser.h"
 #include <cstring>
 #include <sstream>
@@ -23,7 +23,7 @@ using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- Public methodes
 
 FileNotFoundError::FileNotFoundError(const char *filename)
 {
@@ -46,8 +46,6 @@ const char* FileNotFoundError::what() const noexcept
 }
 
 bool Parser::hasNextLine ( )
-// Algorithme :
-//
 {
 	if( eof )
 	{
@@ -67,12 +65,10 @@ bool Parser::hasNextLine ( )
 
 	return res;
 
-} //Fin de hasNextLine
+} //End of hasNextLine
 
 
 void Parser::nextLine ( )
-// Algorithme :
-//
 {
 	string line;
 	string element;
@@ -87,7 +83,7 @@ void Parser::nextLine ( )
 
 	vector<string>::const_iterator del = delimiters.cbegin();
 
-	//Extrait les differents éléments d'une ligne dans le vecteur lineData
+	//Extract the different parts of the line and put it in the vector linedata
 	for (size_t i = 0; i < delimiters.size(); ++i)
 	{
 		b = line.find(*del, a);
@@ -99,22 +95,22 @@ void Parser::nextLine ( )
 
 	if( ! isLineGood() )
 	{
-		if( hasNextLine() ) //S'il reste des lignes, on passe à la suivante.
+		if( hasNextLine() ) //If the file still has lines, call nextLine.
 		{
 			nextLine();
 		}
-		else //Sinon, on passe manuellement le eof à true
+		else
 		{
 			eof = true;
 		}
 	}
-} //Fin de nextLine
+} //End of nextLine
 
 bool Parser::isLineGood()
 {
 	bool line_good = true;
 
-	// Vérifie que l'heure soit différente des valeurs de base
+	// Checks that the time is good according to the parameters sended to the constructor.
 	if(hDeb!=0 && hFin != (23*60*60))
 	{	
 		int time = TimeToSecond((*get(TIME)).substr(0, 8));
@@ -124,8 +120,8 @@ bool Parser::isLineGood()
 		}
 	}
 
-	// Vérifie si le type de la page est différent de celles qui sont blacklistées
-	// si des extensions ont été blacklisté et si la ligne n'est pas déjà rejetée.
+	// Checks that the extension of the line is not in the blacklist vector. Will not do this
+	// if the line is already marked as false (because of the time).
 	if(blacklist.size() != 0 && line_good)
 	{
 		const string * type = extractExtension(*get(DOCUMENT));
@@ -143,7 +139,10 @@ bool Parser::isLineGood()
 void Parser::addBlacklist ( std::string extensionName )
 {
 	blacklist.push_back(extensionName);
-} //Fin de addBlacklist
+} //End of addBlacklist
+
+//----------------------------------------------------- Protected methodes
+
 
 void Parser::showBlackList()
 {
@@ -159,17 +158,15 @@ const string* Parser::extractExtension(const string& adresse) const
 	int firstPos = adresse.find(".", 0);
 	string *res = new string(adresse.substr(firstPos+1, adresse.size() - firstPos));
 	return res;
-} //Fin de extractExtension
+} //End of extractExtension
 
 const string* Parser::get ( enum LineAttribute lineAttr )
-// Algorithme :
-//
 {
 	if(lineData->empty())
 		return nullptr;
 
 	return &lineData->at(lineAttr);
-} //Fin de get
+} //End of get
 
 int Parser::TimeToSecond(const std::string& time)
 {
@@ -182,19 +179,17 @@ int Parser::TimeToSecond(const std::string& time)
 	{
 		return stoi(time) * 3600;
 	}
-}//Fin de TimeToSecond
+}//End of TimeToSecond
 
 
-//-------------------------------------------- Constructeurs - destructeur
+//-------------------------------------------- Constructors - destructor
 
 
 
 Parser::Parser ( const string& filePath, const string& h_Deb, const string& h_Fin )
-// Algorithme :
-//
 {
 	#ifdef MAP
-	    cerr << "Appel au constructeur de <Parser>" << endl;
+	    cerr << "Constructor of <Parser>" << endl;
 	#endif
 	
 	lineData = new vector<string>();
@@ -210,16 +205,14 @@ Parser::Parser ( const string& filePath, const string& h_Deb, const string& h_Fi
 
 	hDeb = TimeToSecond(h_Deb);
 	hFin = TimeToSecond(h_Fin);
-} //----- Fin de Parser
+} //----- End of Parser
 
 Parser::~Parser ( )
-// Algorithme :
-//
 {
 	#ifdef MAP
-	    cerr << "Appel au destructeur de <Parser>" << endl;
+	    cerr << "Destructor of <Parser>" << endl;
 	#endif
 	logFile.close();
 	delete lineData;
 }
-//----- Fin de ~Parser 
+//----- End of ~Parser 

@@ -1,9 +1,9 @@
 /*************************************************************************
                            main  -  description
                              -------------------
-    début                : 16/01
-    copyright            : (C) 2019 par LEHOUX Pacôme et MONTGOMERY Mathieu
-    e-mail               : pacome.lehoux@insa-lyon.fr et mathieu.montgomery@insa-lyon.fr
+    beginning            : 16/01
+    copyright            : (C) 2019 by LEHOUX Pacôme, MONTGOMERY Mathieu et ZHANG Tianyu
+    e-mail               : pacome.lehoux@insa-lyon.fr, mathieu.montgomery@insa-lyon.fr, tianyu.zhang@insa-lyon.fr
 *************************************************************************/
 
 #include "main.h"
@@ -27,8 +27,6 @@ bool cmp (pair<string, int> const & a, pair<string, int> const & b)
 }
 
 int main(int argc, char ** argv)
-// Algorithme :
-//
 {
 	Args * a;
 	Parser * p;
@@ -61,11 +59,9 @@ int main(int argc, char ** argv)
     delete p;
 
 	return 0;
-} //----- Fin de main
+} //----- End of main
 
 Parser * makeParser(Args * argum)
-// Algorithme :
-//
 {
 	Parser * parser;
 	if( ! argum -> filterHour )
@@ -97,7 +93,7 @@ Parser * makeParser(Args * argum)
 
 			if( ! haveExtensions )
 			{
-				cerr << "Le fichier banned_extension.txt ne contient aucune extensions à bannir" << endl;
+				cerr << "The file banned_extension.txt does not contain any extension to ban" << endl;
 			}
 
 	    }
@@ -112,26 +108,22 @@ Parser * makeParser(Args * argum)
 }
 
 bool checkCmdLine(char ** argv)
-// Algorithme :
-//
 {
 
 	return true;
-} //----- Fin de checkCmdLine
+} //----- End of checkCmdLine
 
 void mkTopTen( Parser& p)
-// Algorithme :
-//
 {
 	map<string, int> connections;
 	string adresseRequested;
 
-	//Insère tous les éléments
+	//Inserts every elements
 	do
 	{
 		p.nextLine();
 
-		if(p.isLineGood()) //Utile pour la dernière ligne si elle n'est pas bonne
+		if(p.isLineGood()) //Usefull for the last line, if it's not a good one.
 		{
 			adresseRequested = *(p.get(Parser::DOCUMENT));
 			if(connections.count(adresseRequested) > 0)
@@ -147,7 +139,7 @@ void mkTopTen( Parser& p)
 	
 	} while(p.hasNextLine());
 
-	//Trie les éléments
+	//Sort the elements
 	vector<pair<string, int>> connections_sorted;
 
 	for(map<string, int>::const_iterator i = connections.begin(); i!=connections.end(); i ++){
@@ -159,14 +151,14 @@ void mkTopTen( Parser& p)
 
 	vector<pair<string, int>>::const_iterator aff = connections_sorted.begin();
 
-	//Moins de 10 logs
+	//If we have less than ten elements
 	if(connections_sorted.size() < 10){
 		for(; aff != connections_sorted.end(); aff ++){
 			cout << left << setw(50) << aff->first << " ( " << aff->second << " hits )" << endl;
 		}
 	}
 
-	//Plus de 10 logs
+	//More than 10 elements
 	else{
 		int cpt = 0;
 		int max = aff->second;
@@ -180,17 +172,15 @@ void mkTopTen( Parser& p)
 
 			if(cpt == 10)
 			{
-				cout << "Plus de 10 éléments ont " << aff->second << " hits." <<endl;
+				cout << "More than 10 elements have " << aff->second << " hits." <<endl;
 			}
 		}
 
 	}
 
-} //----- Fin de mkTopTen
+} //----- End of mkTopTen
 
 void mkGraph( Parser& parser, const string& outputFileName )
-// Algorithme :
-//
 {
     Graph<string> graph;
 
@@ -227,4 +217,4 @@ void mkGraph( Parser& parser, const string& outputFileName )
     ofstream outputFile(outputFileName);
     outputFile << graph << endl;
     outputFile.close();
-} //----- Fin de mkGraph
+} //----- End of mkGraph
