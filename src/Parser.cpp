@@ -77,12 +77,12 @@ void Parser::nextLine ( )
 	string element;
 	getline(logFile, line);
 
-	lineData->clear();
+	lineData.clear();
 
 	size_t a = 0;
 	size_t b = 0;
 
-	lineData->clear();
+	lineData.clear();
 
 	vector<string>::const_iterator del = delimiters.cbegin();
 
@@ -91,7 +91,7 @@ void Parser::nextLine ( )
 	{
 		b = line.find(*del, a);
 		element = line.substr(a, b-a);
-		lineData->push_back(element);
+		lineData.push_back(element);
 		a = b + (*del).size();
 		del++;
 	}
@@ -168,10 +168,10 @@ const string* Parser::get ( enum LineAttribute lineAttr )
 // Algorithme :
 //
 {
-	if(lineData->empty())
+	if(lineData.empty())
 		return nullptr;
 
-	return &lineData->at(lineAttr);
+	return &lineData.at(lineAttr);
 } //Fin de get
 
 int Parser::TimeToSecond(const std::string& time)
@@ -200,7 +200,7 @@ Parser::Parser ( const string& filePath, const string& h_Deb, const string& h_Fi
 	    cerr << "Appel au constructeur de <Parser>" << endl;
 	#endif
 	
-	lineData = new vector<string>();
+	lineData = vector<string>();
 
 	logFile.open(filePath);
 
@@ -222,7 +222,5 @@ Parser::~Parser ( )
 	#ifdef MAP
 	    cerr << "Appel au destructeur de <Parser>" << endl;
 	#endif
-	logFile.close();
-	delete lineData;
 }
 //----- Fin de ~Parser 

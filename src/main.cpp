@@ -55,15 +55,17 @@ int main(int argc, char ** argv)
 
     if(checkCmdLine(argc, argv, args))
     {
+        Parser* p;
         try {
-		    Parser* p = makeParser(&a);
+		    p = makeParser(&args);
 
 		    if(p != nullptr)
 		    {
 			    //mkGraph(parser, "../weblogs.dot");
 			    mkTopTen(*p);
-                delete p;
             }
+
+		    delete p;
         }
         catch (FileNotFoundError &e) {
             cerr << e.what() << endl;
@@ -124,13 +126,7 @@ Parser * makeParser(Args * argum)
 	return parser;
 }
 
-bool checkCmdLine(char ** argv)
-=======
-    return -1;
-} //----- Fin de main
-
 bool checkCmdLine(int argc, char ** argv, Args& args)
->>>>>>> 060d2afbf3c7b71fdc1993724a2ce629bb3dd76f
 // Algorithme :
 //
 {

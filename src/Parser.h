@@ -112,7 +112,7 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
 
-	std::vector<std::string> *lineData; //Contient les différents éléments de la ligne lu.
+	std::vector<std::string> lineData; //Contient les différents éléments de la ligne lu.
 
 	std::fstream logFile; //Gère la lecture dans le fichier ouvert.
 
