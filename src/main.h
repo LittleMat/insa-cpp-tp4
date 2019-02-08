@@ -15,18 +15,18 @@
 #include "Graph.h"
 
 struct Args {
-    std::string inputFileName;
+    std::string inputFileName = "";
 
     // -g
     bool makeGraph = false;
-    std::string graphOutputFileName;
+    std::string graphOutputFileName = "";
 
     // -e
     bool blacklistFiles = false;
 
     // -t
     bool filterHour = false;
-    int hour;
+    int hour = -1;
 };
 
 /*
@@ -42,7 +42,7 @@ Parser * makeParser(Args * argum);
 /*
  *
  */
-bool checkCmdLine( char ** argv );
+bool checkCmdLine( int argc, char ** argv, Args& args);
 
 /*
  *  Makes the top 10 most visited websites according to the arguments.

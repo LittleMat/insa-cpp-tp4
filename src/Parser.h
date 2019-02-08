@@ -116,7 +116,7 @@ protected:
 
 //----------------------------------------------------- Protected attributes
 
-	std::vector<std::string> *lineData; //Contains the different part of a line that is currently read.
+	std::vector<std::string> lineData; //Contains the different part of a line that is currently read.
 
 	std::fstream logFile; //Manages the file where the data is read.
 
