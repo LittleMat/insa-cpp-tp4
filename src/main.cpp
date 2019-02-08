@@ -151,7 +151,7 @@ void mkTopTen( Parser& p)
 
 	vector<pair<string, int>>::const_iterator aff = connections_sorted.begin();
 
-	//If we have less than ten elements
+	//We have less than ten elements
 	if(connections_sorted.size() < 10){
 		for(; aff != connections_sorted.end(); aff ++){
 			cout << left << setw(50) << aff->first << " ( " << aff->second << " hits )" << endl;
