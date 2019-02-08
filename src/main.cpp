@@ -19,6 +19,7 @@
 using namespace std;
 
 const string LOCAL_URL("intranet-if.insa-lyon.fr");
+const string EXTENSIONS_BANNED("banned_extension.txt");
 
 bool cmp (pair<string, int> const & a, pair<string, int> const & b)
 {
@@ -29,15 +30,26 @@ int main(int argc, char ** argv)
 // Algorithme :
 //
 {
+	Args * a;
+	Parser * p;
     try
     {
-        Parser parser("anonyme.log", "10:10:10", "11:00:00");
-        parser.addBlacklist("css");
-        parser.addBlacklist("jpeg");
-        parser.addBlacklist("");
+        a = new Args;
+        a->inputFileName = "anonyme.log";
+	    a->makeGraph = false;
+	    a->graphOutputFileName = "";
+	    a->blacklistFiles = true;
+	    a->filterHour = true;
+	    a-> hour = 10;
 
-        //mkGraph(parser, "../weblogs.dot");
-        mkTopTen(parser);
+
+		p = makeParser(a);
+
+		if(p != nullptr)
+		{
+			//mkGraph(parser, "../weblogs.dot");
+			mkTopTen(*p);
+		}
     }
     catch(FileNotFoundError& e)
     {
@@ -45,8 +57,59 @@ int main(int argc, char ** argv)
         return -1;
     }
 
+    delete a;
+    delete p;
+
 	return 0;
 } //----- Fin de main
+
+Parser * makeParser(Args * argum)
+// Algorithme :
+//
+{
+	Parser * parser;
+	if( ! argum -> filterHour )
+	{
+		parser = new Parser( argum ->inputFileName);
+	}
+	else
+	{
+		parser = new Parser( argum ->inputFileName, to_string(argum->hour), to_string(argum->hour+1));
+	}
+
+	if ( argum->blacklistFiles ){
+	    try
+	    {
+			fstream extension;
+			string line;
+			extension.open(EXTENSIONS_BANNED);
+
+			bool haveExtensions = false;
+			while( ! extension.eof() )
+			{
+				getline(extension, line);
+				if( line.size( ) != 0 )
+				{
+					haveExtensions = true;
+					parser -> addBlacklist(line);
+				}
+			}
+
+			if( ! haveExtensions )
+			{
+				cerr << "Le fichier banned_extension.txt ne contient aucune extensions à bannir" << endl;
+			}
+
+	    }
+	    catch(FileNotFoundError& e)
+	    {
+	        cerr << e.what() << endl;
+	        return nullptr;
+	    }
+	}
+
+	return parser;
+}
 
 bool checkCmdLine(char ** argv)
 // Algorithme :

@@ -65,18 +65,18 @@ public:
 	void nextLine ( );
 
 	/*
-	 * 	Check si la ligne est correct par rapport aux paramètres.
+	 * 	Vérifie si la ligne est correct par rapport aux paramètres.
 	 */
 	bool isLineGood();
 
 	/*
-	 *	Ajoute une extension au vector blacklist pour que le parser ne prenne pas
+	 *	Ajoute une extension au vecteur blacklist pour que le parser ne prenne pas
 	 *  les pages ayant cette extension.
 	 */
 	void addBlacklist ( std::string extensionName);
 
 	/*
-	 *	Retourne l'attribut passé en paramètre de la ligne stocké dans linedata
+	 *	Retourne l'attribut passé en paramètre de la ligne stocké dans linedata.
 	 */
 	const std::string* get ( LineAttribute lineAttr );
 
@@ -84,7 +84,7 @@ public:
 	/*
 	 *	Ouvre le fichier filePath et initialise les variables.
 	 */
-	explicit Parser ( const std::string& filePath, const std::string& h_Deb = "00:00:00", const std::string& h_Fin = "23:59:59"  );
+	explicit Parser ( const std::string& filePath, const std::string& h_Deb = "00", const std::string& h_Fin = "23"  );
 
 	/*
 	 *	Destructeur de Parser.

@@ -35,12 +35,17 @@ struct Args {
 int main( int argc, char ** argv );
 
 /*
+ * Construit le parser à partir de la structure arguments.
+ */
+Parser * makeParser(Args * argum);
+
+/*
  *
  */
 bool checkCmdLine( char ** argv );
 
 /*
- *
+ * Fait le top 10 des sites les plus visités en prennant compte les arguments.
  */
  void mkTopTen( Parser& parser);
 

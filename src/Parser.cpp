@@ -112,36 +112,34 @@ void Parser::nextLine ( )
 bool Parser::isLineGood()
 {
 	bool line_good = true;
+
 	// Vérifie que l'heure soit bien entre les bornes, si elles sont différentes
 	// des valeurs de base
 	if(hDeb!=0 && hFin != (23*60*60 + 59*60 + 59))
 	{	
 		int time = TimeToSecond((*get(TIME)).substr(0, 8));
-		if( ! ( time > hDeb && time < hFin ) ) 
+		if( ! ( time >= hDeb && time < hFin ) ) 
 		{
 			line_good = false;
-			//cout << "This line (" <<  *get(DOCUMENT) <<") is not good! Proof : " << *get(TIME) << " = " << time << endl;
 		}
 	}
 
 	// Vérifie si le type de la page est différent de celles qui sont blacklistées
 	// si des extensions ont été blacklisté et si la ligne n'est pas déjà rejetée.
-	
-
 	if(blacklist.size() != 0 && line_good)
 	{
 		vector<string>::const_iterator ci;
 
 		for(ci = blacklist.begin(); ci != blacklist.end(); ++ci)
 		{
-			string type = *extractExtension(*get(DOCUMENT));
-			if( ! type.compare (*ci))
+			const string * type = extractExtension(*get(DOCUMENT));
+			if( ! type->compare (*ci))
 			{
 				line_good = false;
 			}
+			delete type;
 		}
 	}
-
 	return line_good;
 }
 
@@ -178,7 +176,15 @@ const string* Parser::get ( enum LineAttribute lineAttr )
 
 int Parser::TimeToSecond(const std::string& time)
 {
-	return stoi(time.substr(0, 2)) * 3600+ stoi(time.substr(3, 2)) * 60 + stoi(time.substr(6, 2));
+
+	if(time.size() > 2)
+	{
+		return stoi(time.substr(0, 2)) * 3600+ stoi(time.substr(3, 2)) * 60 + stoi(time.substr(6, 2));
+	}
+	else
+	{
+		return stoi(time) * 3600;
+	}
 }//Fin de TimeToSecond
 
 
@@ -202,7 +208,6 @@ Parser::Parser ( const string& filePath, const string& h_Deb, const string& h_Fi
 
 	if(!logFile.good())
 	{
-		
 		throw FileNotFoundError(filePath.c_str());
 	}
 
