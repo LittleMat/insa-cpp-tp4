@@ -15,11 +15,31 @@
 #include <iomanip>
 #include <map>
 #include <algorithm>
+#include <string.h>
+#include <string>
+#include <unistd.h>
+#include <cctype>
 
 using namespace std;
 
+const char* USAGE_MESSAGE =
+        "Usage : analog [options] <input-file>\n\n"
+        "\t<input-file>      : path to the log file to use as input\n\n"
+        "\tAvailable options :\n\n"
+        "\t\t-g [output-file] : specifies that a directed graph representation of the log file\n"
+        "\t\t\tshould be built and outputed to [output-file]. Vertices in the graph represent the webpages\n"
+        "\t\t\tand arcs represent that a request occurred from a page to get another page. The actual number\n"
+        "\t\t\tof request that occurred is represented as a label on the associated arc.\n"
+        "\t\t\t[output-file] defaults to \"out.dot\"\n\n"
+        "\t\t-e : exclude files based on their ending. Blacklisted file endings are stored in the x file.\n\n" //TODO put name of blacklist file
+        "\t\t-t <hour> : only consider requests that occurred between <hour> (included)\n"
+        "\t\t\tand <hour> + 1 (excluded). <hour> must be a number between 0 and 23.";
+
 const string LOCAL_URL("intranet-if.insa-lyon.fr");
 const string EXTENSIONS_BANNED("banned_extension.txt");
+
+constexpr int ARGS_NUM = 3;
+const char* VALID_ARGS[ARGS_NUM] = { "-g", "-e", "-t" };
 
 bool cmp (pair<string, int> const & a, pair<string, int> const & b)
 {
@@ -30,37 +50,30 @@ int main(int argc, char ** argv)
 // Algorithme :
 //
 {
-	Args * a;
-	Parser * p;
-    try
+    opterr = 0;
+    Args args;
+
+    if(checkCmdLine(argc, argv, args))
     {
-        a = new Args;
-        a->inputFileName = "anonyme.log";
-	    a->makeGraph = false;
-	    a->graphOutputFileName = "";
-	    a->blacklistFiles = true;
-	    a->filterHour = true;
-	    a-> hour = 10;
+        try {
+		    Parser* p = makeParser(&a);
 
+		    if(p != nullptr)
+		    {
+			    //mkGraph(parser, "../weblogs.dot");
+			    mkTopTen(*p);
+                delete p;
+            }
+        }
+        catch (FileNotFoundError &e) {
+            cerr << e.what() << endl;
+            return -1;
+        }
 
-		p = makeParser(a);
-
-		if(p != nullptr)
-		{
-			//mkGraph(parser, "../weblogs.dot");
-			mkTopTen(*p);
-		}
+        return 0;
     }
-    catch(FileNotFoundError& e)
-    {
-        cerr << e.what() << endl;
-        return -1;
-    }
-
-    delete a;
-    delete p;
-
-	return 0;
+    
+	return -1;
 } //----- Fin de main
 
 Parser * makeParser(Args * argum)
@@ -112,9 +125,91 @@ Parser * makeParser(Args * argum)
 }
 
 bool checkCmdLine(char ** argv)
+=======
+    return -1;
+} //----- Fin de main
+
+bool checkCmdLine(int argc, char ** argv, Args& args)
+>>>>>>> 060d2afbf3c7b71fdc1993724a2ce629bb3dd76f
 // Algorithme :
 //
 {
+    args = Args();
+
+    if(argc <= 1) {
+        cout << USAGE_MESSAGE << endl;
+        return false;
+    }
+
+    int c;
+    while((c = getopt(argc, argv, "g:et:")) != -1)
+    {
+        switch(c)
+        {
+            case 'g': {
+                args.makeGraph = true;
+                args.graphOutputFileName = string(optarg);
+                break;
+            }
+            case 'e':
+                args.blacklistFiles = true;
+                break;
+            case 't': {
+                args.filterHour = true;
+                bool gotBadT = false;
+                size_t argLen = strlen(optarg);
+                if (argLen <= 2) {
+                    for (int j = 0; j < argLen && !gotBadT; ++j) {
+                        if (optarg[0] <= 48 || optarg[0] >= 57) {
+                            gotBadT = true;
+                        }
+                    }
+                    if (!gotBadT) {
+                        args.filterHour = true;
+                        args.hour = atoi(optarg);
+                        if (args.hour < 0 || args.hour > 23)
+                            gotBadT = true;
+                    }
+                } else {
+                    gotBadT = true;
+                }
+                // got bad or no number after -t
+                if (gotBadT) {
+                    cout << "Argument -t expects a number between 0 and 23" << endl;
+                    return false;
+                }
+                break;
+            }
+            case '?':
+                if(optopt == 't') {
+                    cout << "Argument -t expects a number between 0 and 23" << endl;
+                    return false;
+                }
+                else if(optopt == 'g') {
+                    args.makeGraph = true;
+                    args.graphOutputFileName = string("out.dot");
+                    break;
+                }
+                else {
+                    if(isprint(c))
+                        cout << "Unknown argument : -" << char(optopt) << endl;
+                    else
+                        cout << hex << "Unknown argument character : \\x" << optopt << dec << endl;
+                    return false;
+                }
+            default:
+                cout << "An error occurred while parsing command line arguments" << endl;
+                return false;
+        }
+    }
+
+    if(optind < argc) {
+        args.inputFileName = argv[optind];
+    }
+    else {
+        cout << USAGE_MESSAGE << endl;
+        return false;
+    }
 
 	return true;
 } //----- Fin de checkCmdLine
