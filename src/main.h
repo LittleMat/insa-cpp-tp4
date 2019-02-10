@@ -14,6 +14,9 @@
 #include "Parser.h"
 #include "Graph.h"
 
+/*
+ * Struct used to hold the program's command line arguments
+ */
 struct Args {
     std::string inputFileName = "";
 
@@ -40,7 +43,10 @@ int main( int argc, char ** argv );
 Parser * makeParser(Args * argum);
 
 /*
- *
+ * Parses the command line arguments and fills the given Args instance accordingly.
+ * Returns true if the arguments were valid and false otherwise.
+ * If false is returned, the given Args instance can't be considered valid and usable,
+ * whatever the values the function may have put in it.
  */
 bool checkCmdLine( int argc, char ** argv, Args& args);
 
@@ -50,7 +56,9 @@ bool checkCmdLine( int argc, char ** argv, Args& args);
  void mkTopTen( Parser& parser);
 
  /*
-  *
+  * Builds a graph from the data returned by the given parser.
+  * The graph is output to the given file in the dot format
+  * (see https://en.wikipedia.org/wiki/DOT_(graph_description_language)
   */
  void mkGraph( Parser& parser, const std::string& outputFileName );
 

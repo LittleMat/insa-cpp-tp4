@@ -16,7 +16,10 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Graph>
-
+// Represents a directed Graph, i.e. a set of Node instances linked together.
+// When using a Graph to manipulate Nodes, rather than manipulating Nodes directly,
+// the Graph makes sure than only a single instance of Node is created for each different
+// value. DataType must be comparable as per std::map requirements.
 //------------------------------------------------------------------------
 
 template<typename DataType>
@@ -27,6 +30,11 @@ class Graph
 public:
 //----------------------------------------------------- Méthodes publiques
 
+    /*
+     * Creates an edge in the graph between the two given values (where each value is a node)
+     * If a Node instance already exists for the given values, it is used, otherwise a new
+     * instance is created.
+     */
     void add(DataType from, DataType to)
     {
         if(!nodes.count(from))
@@ -36,6 +44,10 @@ public:
         nodes[from]->addEdge(nodes[to]);
     }
 
+    /*
+     * Displays the Graph in dot format
+     * (see https://en.wikipedia.org/wiki/DOT_(graph_description_language)
+     */
     friend std::ostream& operator<<(std::ostream& out, const Graph<DataType>& g)
     {
         auto& nodes = g.nodes;
