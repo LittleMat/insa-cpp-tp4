@@ -34,7 +34,7 @@ const string USAGE_MESSAGE(
         "\t\t-e : exclude files based on their ending. Blacklisted file endings are stored in banned_extension.txt.\n\n"
         "\t\t-t <hour> : only consider requests that occurred between <hour> (included)\n"
         "\t\t\tand <hour> + 1 (excluded). <hour> must be a number between 0 and 23.");
-const string LOCAL_URL("intranet-if.insa-lyon.fr");
+const string LOCAL_URL("intranet-if");
 const string EXTENSIONS_BANNED("banned_extension.txt");
 
 int main(int argc, char ** argv)
@@ -296,7 +296,7 @@ void mkGraph( Parser& parser, const string& outputFileName )
             if(pos2 != string::npos)
             {
                 // le nom d'hôte correspond au nom d'hôte local
-                if(referer.substr(pos1, pos2 - pos1).rfind(LOCAL_URL) != string::npos)
+                if(referer.substr(pos1, pos2 - pos1).find(LOCAL_URL) == 0)
                 {
                     graph.add(referer.substr(pos2, referer.size()), *parser.get(Parser::DOCUMENT));
                 }
