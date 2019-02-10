@@ -9,13 +9,14 @@
 //---------- Interface of <Parser> (file Parser.h) ----------------
 #ifndef PARSER_H
 #define PARSER_H
-#include <vector>
-#include <string>
+
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <vector>
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Parser>
+// Goal of the <Parser> class
 // This class will open a file passed to the constructor and each time the method nextLine
 // is called, it will read a new line from the file and break it into a vector of information.
 // all the different information from a line are accessible with a get method, and it is possible
@@ -84,7 +85,7 @@ public:
 	 */
 	const std::string* get ( LineAttribute lineAttr );
 
-//-------------------------------------------- Constructeur - destructeur
+//-------------------------------------------- Constructor - destructor
 	/*
 	 *	Opens filePath and initialize variables.
 	 */

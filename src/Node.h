@@ -6,7 +6,7 @@
     e-mail               : pacome.lehoux@insa-lyon.fr, mathieu.montgomery@insa-lyon.fr, tianyu.zhang@insa-lyon.fr
 *************************************************************************/
 
-//---------- Interface de la classe <Node> (fichier Node.h) ----------------
+//---------- Interface of <Node> (file Node.h) ----------------
 #ifndef NODE_H
 #define NODE_H
 
@@ -14,7 +14,7 @@
 #include <unordered_map>
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Node>
+// Goal of the <Node> class
 // Represents a node (or vertex) in a directed graph.
 // A Node holds a value of generic type and edges to the next Nodes.
 // Each edge is associated with the number of times the edge was added to the Node.
@@ -26,7 +26,7 @@ class Node
 //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- Public methods
 
     /*
      * Returns the data held by this Node
@@ -61,7 +61,7 @@ public:
             edges[node] = 1;
         }
     }
-//-------------------------------------------- Constructeur - destructeur
+//-------------------------------------------- Constructor - destructor
 
     /*
      * Builds
@@ -71,7 +71,7 @@ public:
     ~Node() = default;
 
 protected:
-//----------------------------------------------------- Attributs protégés
+//----------------------------------------------------- Protected attributes
 
     DataType data;
 

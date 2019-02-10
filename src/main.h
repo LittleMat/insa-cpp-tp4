@@ -33,12 +33,12 @@ struct Args {
 };
 
 /*
- *
+ * main function
  */
 int main( int argc, char ** argv );
 
 /*
- *  Construct the parser with the arguments structure.
+ * Construct the parser with the arguments structure.
  */
 Parser * makeParser(Args * argum);
 

@@ -15,7 +15,7 @@
 #include "Node.h"
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Graph>
+// Goal of the <Graph> class
 // Represents a directed Graph, i.e. a set of Node instances linked together.
 // When using a Graph to manipulate Nodes, rather than manipulating Nodes directly,
 // the Graph makes sure than only a single instance of Node is created for each different
@@ -28,7 +28,7 @@ class Graph
 //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- Public methods
 
     /*
      * Creates an edge in the graph between the two given values (where each value is a node)
@@ -75,18 +75,16 @@ public:
         return out << '}';
     }
 
-//-------------------------------------------- Constructeur - destructeur
+//-------------------------------------------- Constructor - destructor
 
     explicit Graph() = default;
 
     ~Graph() = default;
 
 protected:
-//----------------------------------------------------- Attributs protégés
+//----------------------------------------------------- Protected attributes
 
     std::map<DataType, std::shared_ptr<Node<DataType>>> nodes;
 };
-
-
 
 #endif // GRAPH_H

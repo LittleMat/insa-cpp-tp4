@@ -11,12 +11,12 @@
 //---------------------------------------------------------------- INCLUDE
 
 //--------------------------------------------------------- System include
+#include <algorithm>
+#include <cstring>
+#include <sstream>
 
 //------------------------------------------------------ Personnal include
 #include "Parser.h"
-#include <cstring>
-#include <sstream>
-#include <algorithm>
 
 using namespace std;
 //------------------------------------------------------------- Constantes
