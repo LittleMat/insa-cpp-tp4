@@ -15,7 +15,9 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Node>
-
+// Represents a node (or vertex) in a directed graph.
+// A Node holds a value of generic type and edges to the next Nodes.
+// Each edge is associated with the number of times the edge was added to the Node.
 //------------------------------------------------------------------------
 
 template<typename DataType>
@@ -26,16 +28,28 @@ class Node
 public:
 //----------------------------------------------------- Méthodes publiques
 
+    /*
+     * Returns the data held by this Node
+     */
     const DataType& getData() const
     {
         return data;
     }
 
+    /*
+     * Returns the map representing the edges of the Node.
+     * The key is the Node linked to this Node by the edge.
+     * The value is the number of times the link occurred.
+     */
     const std::unordered_map<std::shared_ptr<Node<DataType>>, unsigned>& getEdges() const
     {
         return edges;
     }
 
+    /*
+     * Adds an edge between this Node and the given Node.
+     * If such an edge already exists, it increments the counter associated with the edge.
+     */
     void addEdge(std::shared_ptr<Node<DataType>>& node)
     {
         if(edges.count(node))
@@ -49,6 +63,9 @@ public:
     }
 //-------------------------------------------- Constructeur - destructeur
 
+    /*
+     * Builds
+     */
     explicit Node(DataType data) : data(data) {}
 
     ~Node() = default;
