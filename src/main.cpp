@@ -52,8 +52,10 @@ int main(int argc, char ** argv)
 
 		    if(p != nullptr)
 		    {
-			    //mkGraph(parser, "../weblogs.dot");
-			    mkTopTen(*p);
+		        if(args.makeGraph)
+			        mkGraph(*p, args.graphOutputFileName);
+		        else
+			        mkTopTen(*p);
             }
 
 		    delete p;
