@@ -27,7 +27,7 @@ const string USAGE_MESSAGE(
         "Usage : analog [options] <input-file>\n\n"
         "\t<input-file>      : path to the log file to use as input\n\n"
         "\tAvailable options :\n\n"
-        "\t\t-g [output-file] : specifies that a directed graph representation of the log file\n"
+        "\t\t-g[output-file] : specifies that a directed graph representation of the log file\n"
         "\t\t\tshould be built and outputed to [output-file]. Vertices in the graph represent the webpages\n"
         "\t\t\tand arcs represent that a request occurred from a page to get another page. The actual number\n"
         "\t\t\tof request that occurred is represented as a label on the associated arc.\n"
@@ -118,14 +118,17 @@ bool checkCmdLine(int argc, char ** argv, Args& args)
     }
 
     int c;
-    while((c = getopt(argc, argv, "g:et:")) != -1)
+    while((c = getopt(argc, argv, "g::et:")) != -1)
     {
         switch(c)
         {
             case 'g':
             {
                 args.makeGraph = true;
-                args.graphOutputFileName = string(optarg);
+                if(optarg != nullptr)
+                    args.graphOutputFileName = string(optarg);
+                else
+                    args.graphOutputFileName = string("out.dot");
                 break;
             }
             case 'e':
@@ -168,12 +171,6 @@ bool checkCmdLine(int argc, char ** argv, Args& args)
                 {
                     cout << "Argument -t expects a number between 0 and 23" << endl;
                     return false;
-                }
-                else if(optopt == 'g')
-                {
-                    args.makeGraph = true;
-                    args.graphOutputFileName = string("out.dot");
-                    break;
                 }
                 else
                 {
