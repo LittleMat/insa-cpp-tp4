@@ -41,6 +41,7 @@ int main(int argc, char ** argv)
 {
     opterr = 0;
     Args args;
+    bool ok = false;
 
     if(checkCmdLine(argc, argv, args))
     {
@@ -48,31 +49,34 @@ int main(int argc, char ** argv)
         try
         {
 		    p = makeParser(&args);
+		    ok = p != nullptr;
 
-		    if(p != nullptr)
+		    if(ok)
 		    {
 		        if(args.makeGraph)
-			        mkGraph(*p, args.graphOutputFileName);
+		        {
+                    ok = mkGraph(*p, args.graphOutputFileName);
+                }
 		        else
 			        mkTopTen(*p);
             }
-		    else
-            {
-		        cerr << "Abort" << endl;
-		        return -1;
-            }
 
 		    delete p;
-            return 0;
         }
         catch (FileNotFoundError &e)
         {
             cerr << e.what() << endl;
-            return -1;
+            ok = false;
         }
     }
-    
-	return -1;
+
+    if(ok)
+        return 0;
+    else
+    {
+        cerr << "Abort" << endl;
+        return -1;
+    }
 } //----- End of main
 
 Parser * makeParser(Args * argum)
