@@ -155,8 +155,21 @@ void Parser::showBlackList()
 
 const string* Parser::extractExtension(const string& adresse) const
 {
-	int firstPos = adresse.find(".", 0);
-	string *res = new string(adresse.substr(firstPos+1, adresse.size() - firstPos));
+	string* res = new string();
+	size_t firstPos = adresse.find('.', 0);
+	if(firstPos != string::npos)
+	{
+		size_t lastPos = adresse.find('?', firstPos);
+		if(lastPos == string::npos)
+		{
+			*res = adresse.substr(firstPos + 1, adresse.size() - firstPos);
+		}
+		else
+		{
+			*res = adresse.substr(firstPos + 1, lastPos - firstPos - 1);
+		}
+	}
+	//cout << adresse << '\t' << *res << endl;
 	return res;
 } //End of extractExtension
 

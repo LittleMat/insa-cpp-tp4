@@ -84,9 +84,8 @@ Parser * makeParser(Args * argum)
 
 	if ( argum->blacklistFiles )
 	{
-        fstream extension;
+        fstream extension(EXTENSIONS_BANNED);
         string line;
-        extension.open(EXTENSIONS_BANNED);
 
         bool haveExtensions = false;
         while( ! extension.eof() )
