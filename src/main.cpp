@@ -56,6 +56,11 @@ int main(int argc, char ** argv)
 		        else
 			        mkTopTen(*p);
             }
+		    else
+            {
+		        cerr << "Abort" << endl;
+		        return -1;
+            }
 
 		    delete p;
             return 0;
@@ -72,7 +77,7 @@ int main(int argc, char ** argv)
 
 Parser * makeParser(Args * argum)
 {
-	Parser * parser;
+	Parser * parser = nullptr;
 	if( ! argum -> filterHour )
 	{
 		parser = new Parser( argum ->inputFileName);
@@ -87,20 +92,18 @@ Parser * makeParser(Args * argum)
         fstream extension(EXTENSIONS_BANNED);
         string line;
 
-        bool haveExtensions = false;
-        while( ! extension.eof() )
+        if( extension.fail() ) {
+            cerr << "Can't open banned_extension.txt" << endl;
+            return nullptr;
+        }
+
+        while( extension.good() )
         {
             getline(extension, line);
             if( line.size( ) != 0 )
             {
-                haveExtensions = true;
                 parser -> addBlacklist(line);
             }
-        }
-
-        if( ! haveExtensions )
-        {
-			cerr << "The file banned_extension.txt does not contain any extension to ban" << endl;
         }
 	}
 
@@ -289,7 +292,7 @@ void mkGraph( Parser& parser, const string& outputFileName )
             // trouver l'indice du début de la page dans l'url
             size_t pos2 = referer.find('/', pos1);
 
-            //hTODO maybe simplify really long urls (like google ones for example)
+            //TODO maybe simplify really long urls (like google ones for example)
 
             // l'url contient une page (au moins un / à la fin)
             if(pos2 != string::npos)
