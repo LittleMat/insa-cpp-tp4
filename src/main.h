@@ -53,13 +53,13 @@ bool checkCmdLine( int argc, char ** argv, Args& args);
 /*
  *  Makes the top 10 most visited websites according to the arguments.
  */
- void mkTopTen( Parser& parser);
+void mkTopTen( Parser& parser);
 
- /*
+/*
   * Builds a graph from the data returned by the given parser.
   * The graph is output to the given file in the dot format
   * (see https://en.wikipedia.org/wiki/DOT_(graph_description_language)
   */
- void mkGraph( Parser& parser, const std::string& outputFileName );
+bool mkGraph( Parser& parser, const std::string& outputFileName );
 
 #endif

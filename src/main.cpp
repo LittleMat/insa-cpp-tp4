@@ -275,8 +275,16 @@ void mkTopTen( Parser& p )
 
 } //----- End of mkTopTen
 
-void mkGraph( Parser& parser, const string& outputFileName )
+bool mkGraph( Parser& parser, const string& outputFileName )
 {
+    ofstream outputFile(outputFileName);
+
+    if(outputFile.fail())
+    {
+        cerr << "Can't open " << outputFileName << endl;
+        return false;
+    }
+
     Graph<string> graph;
 
     while(parser.hasNextLine())
@@ -314,7 +322,8 @@ void mkGraph( Parser& parser, const string& outputFileName )
         }
     }
 
-    ofstream outputFile(outputFileName);
     outputFile << graph << endl;
     outputFile.close();
+
+    return true;
 } //----- End of mkGraph
