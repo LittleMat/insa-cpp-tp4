@@ -1,0 +1,1 @@
+../../bin/analog simpleLogs.log -e -g graph.dot -t 2

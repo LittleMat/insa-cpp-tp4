@@ -1,0 +1,15 @@
+Usage : analog [options] <input-file>
+
+	<input-file>      : path to the log file to use as input
+
+	Available options :
+
+		-g <output-file> : specifies that a directed graph representation of the log file
+			should be built and output to <output-file>. Vertices in the graph represent the webpages
+			and arcs represent that a request occurred from a page to get another page. The actual number
+			of request that occurred is represented as a label on the associated arc.
+
+		-e : exclude files based on their ending. Blacklisted file endings are stored in banned_extension.txt.
+
+		-t <hour> : only consider requests that occurred between <hour> (included)
+			and <hour> + 1 (excluded). <hour> must be a number between 0 and 23.

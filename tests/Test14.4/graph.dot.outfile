@@ -1,0 +1,5 @@
+digraph {
+	"/temps/3IF37.html";
+	"/temps/precedent.gif";
+	"/temps/3IF37.html" -> "/temps/precedent.gif" [label="1"];
+}
