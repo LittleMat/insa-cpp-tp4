@@ -179,7 +179,7 @@ bool checkCmdLine(int argc, char ** argv, Args& args)
                 if(optopt == 'g')
                 {
                     cerr << "Argument -g expects a file name" << endl;
-                    break;
+                    return false;
                 }
                 else
                 {
