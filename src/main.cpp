@@ -165,7 +165,7 @@ bool checkCmdLine(int argc, char ** argv, Args& args)
                 // got bad or no number after -t
                 if (gotBadT)
                 {
-                    cout << "Argument -t expects a number between 0 and 23" << endl;
+                    cerr << "Argument -t expects a number between 0 and 23" << endl;
                     return false;
                 }
                 break;
@@ -173,12 +173,13 @@ bool checkCmdLine(int argc, char ** argv, Args& args)
             case '?':
                 if(optopt == 't')
                 {
-                    cout << "Argument -t expects a number between 0 and 23" << endl;
+                    cerr << "Argument -t expects a number between 0 and 23" << endl;
                     return false;
                 }
                 if(optopt == 'g')
                 {
-                    cout << "Argument -g expects a file name" << endl;
+                    cerr << "Argument -g expects a file name" << endl;
+                    break;
                 }
                 else
                 {
@@ -232,8 +233,8 @@ void mkTopTen( Parser& p )
 				connections[adresseRequested] = 1;
 			}
 		}
-		
-	
+
+
 	} while(p.hasNextLine());
 
 	//Sort the elements
@@ -245,7 +246,7 @@ void mkTopTen( Parser& p )
 	}
 
 	sort(connections_sorted.begin(), connections_sorted.end(), cmp);
-	
+
 
 	vector<pair<string, int>>::const_iterator aff = connections_sorted.begin();
 
@@ -328,6 +329,8 @@ bool mkGraph( Parser& parser, const string& outputFileName )
 
     outputFile << graph << endl;
     outputFile.close();
+
+    cout << "Created graph in " << outputFileName << endl;
 
     return true;
 } //----- End of mkGraph
