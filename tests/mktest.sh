@@ -4,7 +4,7 @@ nKo=0
 nTotal=0
 nMis=0
 
-#./setup.sh
+./setup.sh
 
 for i in Test*
 do
