@@ -20,18 +20,18 @@
 // Each edge is associated with the number of times the edge was added to the Node.
 //------------------------------------------------------------------------
 
-template<typename DataType>
+template < typename DataType >
 class Node
 {
 //----------------------------------------------------------------- PUBLIC
 
-public:
+public :
 //----------------------------------------------------- Public methods
 
     /*
      * Returns the data held by this Node
      */
-    const DataType& getData() const
+    const DataType& getData ( ) const
     {
         return data;
     }
@@ -41,7 +41,7 @@ public:
      * The key is the Node linked to this Node by the edge.
      * The value is the number of times the link occurred.
      */
-    const std::unordered_map<std::shared_ptr<Node<DataType>>, unsigned>& getEdges() const
+    const std :: unordered_map < std :: shared_ptr < Node < DataType > > , unsigned > & getEdges ( ) const
     {
         return edges;
     }
@@ -50,15 +50,15 @@ public:
      * Adds an edge between this Node and the given Node.
      * If such an edge already exists, it increments the counter associated with the edge.
      */
-    void addEdge(std::shared_ptr<Node<DataType>>& node)
+    void addEdge( std :: shared_ptr < Node < DataType > > & node )
     {
-        if(edges.count(node))
+        if ( edges.count ( node ) )
         {
-            edges[node]++;
+            edges [ node ] ++;
         }
         else
         {
-            edges[node] = 1;
+            edges [ node ] = 1;
         }
     }
 //-------------------------------------------- Constructor - destructor
@@ -66,16 +66,16 @@ public:
     /*
      * Builds
      */
-    explicit Node(DataType data) : data(data) {}
+    explicit Node ( DataType data ) : data ( data ) { }
 
-    ~Node() = default;
+    ~Node ( ) = default;
 
-protected:
+protected :
 //----------------------------------------------------- Protected attributes
 
     DataType data;
 
-    std::unordered_map<std::shared_ptr<Node<DataType>>, unsigned> edges;
+    std :: unordered_map < std :: shared_ptr < Node<DataType > >, unsigned > edges;
 };
 
 #endif // NODE_H
