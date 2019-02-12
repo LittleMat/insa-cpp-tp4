@@ -17,7 +17,8 @@
 /*
  * Struct used to hold the program's command line arguments
  */
-struct Args {
+struct Args
+{
     std::string inputFileName = "";
 
     // -g
@@ -35,12 +36,12 @@ struct Args {
 /*
  * main function
  */
-int main( int argc, char ** argv );
+int main ( int argc, char ** argv );
 
 /*
  * Construct the parser with the arguments structure.
  */
-Parser * makeParser(Args * argum);
+Parser * makeParser ( Args * argum );
 
 /*
  * Parses the command line arguments and fills the given Args instance accordingly.
@@ -48,18 +49,18 @@ Parser * makeParser(Args * argum);
  * If false is returned, the given Args instance can't be considered valid and usable,
  * whatever the values the function may have put in it.
  */
-bool checkCmdLine( int argc, char ** argv, Args& args);
+bool checkCmdLine ( int argc, char ** argv, Args & args );
 
 /*
  *  Makes the top 10 most visited websites according to the arguments.
  */
-void mkTopTen( Parser& parser);
+ void mkTopTen ( Parser & parser );
 
 /*
   * Builds a graph from the data returned by the given parser.
   * The graph is output to the given file in the dot format
   * (see https://en.wikipedia.org/wiki/DOT_(graph_description_language)
   */
-bool mkGraph( Parser& parser, const std::string& outputFileName );
+bool mkGraph ( Parser & parser, const std::string & outputFileName );
 
 #endif

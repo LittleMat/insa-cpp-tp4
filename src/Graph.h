@@ -22,7 +22,7 @@
 // value. DataType must be comparable as per std::map requirements.
 //------------------------------------------------------------------------
 
-template<typename DataType>
+template < typename DataType >
 class Graph
 {
 //----------------------------------------------------------------- PUBLIC
@@ -35,40 +35,40 @@ public:
      * If a Node instance already exists for the given values, it is used, otherwise a new
      * instance is created.
      */
-    void add(DataType from, DataType to)
+    void add ( DataType from, DataType to )
     {
-        if(!nodes.count(from))
-            nodes[from] = std::make_shared<Node<DataType>>(from);
-        if(!nodes.count(to))
-            nodes[to] = std::make_shared<Node<DataType>>(to);
-        nodes[from]->addEdge(nodes[to]);
+        if( !nodes.count ( from ) )
+            nodes [ from ] = std::make_shared < Node < DataType > > ( from );
+        if( !nodes.count ( to ) )
+            nodes [ to ] = std::make_shared < Node < DataType > > (to);
+        nodes [ from ] -> addEdge ( nodes [ to ] );
     }
 
     /*
      * Displays the Graph in dot format
      * (see https://en.wikipedia.org/wiki/DOT_(graph_description_language)
      */
-    friend std::ostream& operator<<(std::ostream& out, const Graph<DataType>& g)
+    friend std::ostream & operator << ( std::ostream & out, const Graph < DataType > & g )
     {
-        auto& nodes = g.nodes;
+        auto & nodes = g.nodes;
 
         out << "digraph {" << std::endl;
 
         // itérer pour afficher les noeuds
-        for(auto it = nodes.begin(); it != nodes.end(); ++it)
-            out << "\t\"" << it->first << "\";" << std::endl;
+        for ( auto it = nodes.begin ( ); it != nodes.end ( ); ++it )
+            out << "\t\"" << it -> first << "\";" << std::endl;
 
         // réitérer pour afficher les arcs
-        for(auto nodeIt = nodes.begin(); nodeIt != nodes.end(); ++nodeIt)
+        for ( auto nodeIt = nodes.begin ( ); nodeIt != nodes.end ( ); ++nodeIt )
         {
-            auto& node = nodeIt->second;
-            auto& edges = node->getEdges();
+            auto & node = nodeIt -> second;
+            auto & edges = node -> getEdges ( );
 
-            for(auto edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt)
+            for ( auto edgeIt = edges.begin ( ); edgeIt != edges.end ( ); ++edgeIt )
             {
-                out << "\t\"" << nodeIt->first << "\" -> \""
-                    << edgeIt->first->getData()
-                    << "\" [label=\""<< edgeIt->second << "\"];" << std::endl;
+                out << "\t\"" << nodeIt -> first << "\" -> \""
+                    << edgeIt -> first -> getData ( )
+                    << "\" [label=\""<< edgeIt -> second << "\"];" << std::endl;
             }
         }
 
@@ -77,14 +77,14 @@ public:
 
 //-------------------------------------------- Constructor - destructor
 
-    explicit Graph() = default;
+    explicit Graph ( ) = default;
 
-    ~Graph() = default;
+    ~Graph ( ) = default;
 
 protected:
 //----------------------------------------------------- Protected attributes
 
-    std::map<DataType, std::shared_ptr<Node<DataType>>> nodes;
+    std::map < DataType, std::shared_ptr < Node < DataType > > > nodes;
 };
 
 #endif // GRAPH_H
