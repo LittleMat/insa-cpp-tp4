@@ -4,6 +4,7 @@ nKo=0
 nTotal=0
 nMis=0
 
+chmod +x setup.sh
 ./setup.sh
 
 for i in Test*
