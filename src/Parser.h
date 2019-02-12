@@ -77,7 +77,7 @@ public:
 	/*
 	 *	Adds an extension to the blacklist vector so the parser would skip those lines.
 	 */
-	void addBlacklist ( std::string extensionName);
+	void addBlacklist ( std::string& extensionName);
 
 	/*
 	 *	Returns the part of the line that is currently read corresponding to what is passed 

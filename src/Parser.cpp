@@ -136,7 +136,7 @@ bool Parser::isLineGood()
 	return line_good;
 }
 
-void Parser::addBlacklist ( std::string extensionName )
+void Parser::addBlacklist ( std::string& extensionName )
 {
 	blacklist.push_back(extensionName);
 } //End of addBlacklist
