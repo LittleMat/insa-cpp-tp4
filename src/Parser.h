@@ -23,15 +23,15 @@
 // to restrain the data that is read with some parameters (currently in between hours and extensions)
 //------------------------------------------------------------------------
 
-class FileNotFoundError : public std::exception
+class FileNotFoundError : public std :: exception
 {
-public:
-	FileNotFoundError(const char* filename);
-	~FileNotFoundError();
-	const char * what() const noexcept;
+public :
+	FileNotFoundError ( const char * filename );
+	~FileNotFoundError ( );
+	const char * what ( ) const noexcept;
 
-private:
-	char* message;
+private :
+	char * message;
 };
 
 
@@ -39,7 +39,7 @@ class Parser
 {
 //----------------------------------------------------------------- PUBLIC
 
-public:
+public :
 	/*
 	 * Enum containing the different attributes of a line.
 	 */
@@ -72,59 +72,59 @@ public:
 	/*
 	 * 	Check if the line is correct (according to the parameters, hours and extensions).
 	 */
-	bool isLineGood();
+	bool isLineGood ( );
 
 	/*
 	 *	Adds an extension to the blacklist vector so the parser would skip those lines.
 	 */
-	void addBlacklist ( std::string& extensionName);
+	void addBlacklist ( std :: string & extensionName );
 
 	/*
 	 *	Returns the part of the line that is currently read corresponding to what is passed 
 	 *  to the method.
 	 */
-	const std::string* get ( LineAttribute lineAttr );
+	const std :: string * get ( LineAttribute lineAttr );
 
 //-------------------------------------------- Constructor - destructor
 	/*
 	 *	Opens filePath and initialize variables.
 	 */
-	explicit Parser ( const std::string& filePath, const std::string& h_Deb = "00", const std::string& h_Fin = "23"  );
+	explicit Parser ( const std :: string & filePath, const std :: string& h_Deb = "00", const std :: string& h_Fin = "23" );
 
 	/*
 	 *	Destructor of Parser.
 	 */
 	~Parser ( );
 
-protected:
+protected :
 
 	/*
 	 *	Display the blacklist vector.
 	 */
-	void showBlackList();
+	void showBlackList ( );
 
 
 	/*
 	 *	Transforms a string containing a time in an int. It must be in the form hh:mm:ss or hh.
 	 */
-	int TimeToSecond(const std::string& time);
+	int TimeToSecond ( const std :: string & time) ;
 
 	/*
 	 *	Extract the extension of a page.
 	 */
-	const std::string* extractExtension(const std::string& adresse) const;
+	const std :: string * extractExtension ( const std :: string & adresse ) const;
 
 
 //----------------------------------------------------- Protected attributes
 
-	std::vector<std::string> lineData; //Contains the different part of a line that is currently read.
+	std :: vector < std :: string > lineData; //Contains the different part of a line that is currently read.
 
-	std::fstream logFile; //Manages the file where the data is read.
+	std :: fstream logFile; //Manages the file where the data is read.
 
-	std::vector<std::string> const delimiters = {" ", " ", " [", ":", "] \"" , " ", " ", "\" "," ", " \"", "\" \"", "\""};
+	std :: vector < std :: string > const delimiters = {" ", " ", " [", ":", "] \"" , " ", " ", "\" "," ", " \"", "\" \"", "\""};
 	// Vector that contains the delimitation between the different pieces of information of a line.
 
-	std::vector<std::string> blacklist; // Contains the extensions to ignore.
+	std :: vector < std :: string > blacklist; // Contains the extensions to ignore.
 
 	int hDeb;
 	int hFin;
