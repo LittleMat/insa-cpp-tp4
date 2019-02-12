@@ -1,14 +1,18 @@
 SHELL=/bin/bash
 EXENAME=analog
 
+# default compiler flags
 CPPFLAGS=-Wall -Wextra -pedantic -std=c++11
+# variable that can be used to add more flags from the command line
 FLAGS=
 
+# directories
 SRCDIR=src
 BINDIR=bin
 INSTALLDIR=/usr/bin
 TESTDIR=tests
 
+# man config
 MANPAGE=${EXENAME}.1
 MANDIR=/usr/local/man/man1
 
