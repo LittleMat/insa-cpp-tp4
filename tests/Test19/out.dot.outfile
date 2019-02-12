@@ -1,0 +1,17 @@
+digraph {
+	"/SiteWebIF/Intranet-etudiant.php";
+	"/SiteWebIF/Intranet-etudiant.php?ticket=ST-181478-jTnzwtfX6e1cNxelBPox-dsi-vm03";
+	"/notesif";
+	"/notesif/";
+	"/stages/FondInsa.jpg";
+	"/stages/bandeauFinal.jpg";
+	"/stages/style_pfe.css";
+	"http://if.insa-lyon.fr/";
+	"/SiteWebIF/Intranet-etudiant.php" -> "/notesif/" [label="1"];
+	"/SiteWebIF/Intranet-etudiant.php" -> "/notesif" [label="1"];
+	"/SiteWebIF/Intranet-etudiant.php" -> "/stages/bandeauFinal.jpg" [label="1"];
+	"/SiteWebIF/Intranet-etudiant.php" -> "/stages/style_pfe.css" [label="1"];
+	"/SiteWebIF/Intranet-etudiant.php" -> "/stages/FondInsa.jpg" [label="1"];
+	"http://if.insa-lyon.fr/" -> "/SiteWebIF/Intranet-etudiant.php" [label="1"];
+	"http://if.insa-lyon.fr/" -> "/SiteWebIF/Intranet-etudiant.php?ticket=ST-181478-jTnzwtfX6e1cNxelBPox-dsi-vm03" [label="1"];
+}
