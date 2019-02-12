@@ -1,0 +1,39 @@
+.TH analog 1 12/02/2019 1.0
+
+.SH NAME
+.B analog
+- analyzes a given Apache web server log
+
+.SH SYNOPSIS
+analog <input.log> [-t hour] [-e] [-g output.dot]
+
+.SH DESCRIPTION
+Analyzes the given Apache web server log file and performs several operations on it.
+By default, the program generates the list of the 10 most visited pages of the server.
+
+.IP <input.log>
+required, the log file to analyze
+
+.IP -t hour
+optional, filter the logs based on time of occurrence
+Only the logs that occurred in the interval [hour, hour + 1] are kept.
+
+.IP -e
+optional, filter the logs based on file extension
+The program reads a file named "banned_extensions.txt" in the running directory, this file must contain a file extension on each line without the dot (eg: txt).
+Any log that concerns a document that has one of those extensions will be ignored.
+
+.IP -g output.dot
+optional, create a graph representing user navigation and output it to a file in GraphViz format
+Instead of its default behaviour, the program generates of graph of the user navigation on the server.
+Each node represents a web page and arc between web pages count the number of times a request occurred from a page to another.
+The graph is output to output.dot as a GraphViz file.
+
+.SH AUTHORS
+.RE
+Pac\[u00F4]me Lehoux, Mathieu Montgomery et Tia Zhang
+
+.SH SEE ALSO
+.RE
+https://graphviz.gitlab.io/_pages/doc/info/lang.html
+
