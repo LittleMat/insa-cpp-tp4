@@ -4,6 +4,8 @@ nKo=0
 nTotal=0
 nMis=0
 
+#./setup.sh
+
 for i in Test*
 do
   ./test.sh $i results.csv
